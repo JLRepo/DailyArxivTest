@@ -146,15 +146,11 @@ def format_message(
     if not entries:
         return header + "\nNo matches."
 
-    limit = 20
-    show = entries[:limit]
+    show = entries
     blocks = []
     for e in show:
         snippet = shorten(e["summary"], abstract_max_chars)
         blocks.append(f"*{e['title']}*\n{e['url']}\n{snippet}")
-
-    if len(entries) > limit:
-        blocks.append(f"... and {len(entries) - limit} more.")
 
     return header + "\n\n" + "\n\n".join(blocks)
 
