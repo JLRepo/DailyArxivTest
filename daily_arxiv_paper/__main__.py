@@ -219,7 +219,7 @@ def cmd_fetch(args: argparse.Namespace) -> int:
     print(text)
 
     if not args.dry_run:
-        webhook = env.get("SLACK_WEBHOOK_URL")
+        webhook = env.get("SLACK_WEBHOOK_URL") or os.environ.get("SLACK_WEBHOOK_URL")
         if not webhook:
             print("Missing SLACK_WEBHOOK_URL in .env", file=sys.stderr)
             return 2
