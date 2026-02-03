@@ -99,6 +99,11 @@ def parse_entries(xml_bytes: bytes) -> list[dict]:
             if link.get("rel") == "alternate":
                 link_url = link.get("href") or ""
                 break
+        authors = []
+        for a in e.findall("atom:author", ATOM_NS):
+            name = (a.findtext("atom:name", default="", namespaces=ATOM_NS) or "").strip()
+            if name:
+                authors.append(name)
         arxiv_id = id_url.rsplit("/", 1)[-1] if id_url else ""
         entries.append(
             {
@@ -106,6 +111,7 @@ def parse_entries(xml_bytes: bytes) -> list[dict]:
                 "title": " ".join(title.split()),
                 "summary": " ".join(summary.split()),
                 "url": link_url or id_url,
+                "authors": authors,
                 "published": published,
                 "updated": updated,
             }
@@ -150,7 +156,11 @@ def format_message(
     blocks = []
     for e in show:
         snippet = shorten(e["summary"], abstract_max_chars)
-        blocks.append(f"*{e['title']}*\n{e['url']}\n{snippet}")
+        author_line = ", ".join(e.get("authors", []))
+        if author_line:
+            blocks.append(f"*{e['title']}*\n{author_line}\n{e['url']}\n{snippet}")
+        else:
+            blocks.append(f"*{e['title']}*\n{e['url']}\n{snippet}")
 
     return header + "\n\n" + "\n\n".join(blocks)
 
