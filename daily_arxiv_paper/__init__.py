@@ -1,0 +1,1 @@
+"""Daily arXiv CV notifier."""

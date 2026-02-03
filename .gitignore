@@ -1,0 +1,4 @@
+.env
+/data/arxiv.db
+__pycache__/
+*.pyc

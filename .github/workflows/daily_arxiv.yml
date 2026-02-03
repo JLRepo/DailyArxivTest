@@ -1,0 +1,25 @@
+name: Daily arXiv CV Push
+
+on:
+  schedule:
+    # 09:00 China Standard Time (UTC+8) -> 01:00 UTC
+    - cron: "0 1 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run fetch
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python -m daily_arxiv_paper fetch

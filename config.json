@@ -1,0 +1,7 @@
+{
+  "category": "cs.CV",
+  "keywords": ["video", "retrieval", "3d", "agent", "representation learning", "audio", "visual"],
+  "max_results": 50,
+  "abstract_max_chars": 320,
+  "use_proxy": false
+}
